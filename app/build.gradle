@@ -19,21 +19,34 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
+            useProguard false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    dataBinding.enabled = true
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    kapt "com.android.databinding:compiler:$app_databinding"
     implementation "androidx.appcompat:appcompat:$app_supportlibrary"
     implementation "androidx.core:core-ktx:$app_ktx_supportlibrary"
     implementation "androidx.constraintlayout:constraintlayout:$app_contraintlayout"
     implementation "androidx.recyclerview:recyclerview:$app_supportlibrary"
+    implementation "com.google.android.material:material:$app_material_library"
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
