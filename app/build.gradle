@@ -46,9 +46,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$app_contraintlayout"
     implementation "androidx.recyclerview:recyclerview:$app_supportlibrary"
     implementation "com.google.android.material:material:$app_material_library"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01"
 
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 }
