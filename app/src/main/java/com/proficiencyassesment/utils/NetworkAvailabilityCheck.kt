@@ -70,7 +70,7 @@ class NetworkAvailabilityCheck(private val mContext: Context) : LiveData<Boolean
             }
             return connectivityManagerNetworkCallback
         } else {
-            throw IllegalAccessError("Should not happened")
+            throw IllegalAccessError("Illegal Access")
         }
     }
 
