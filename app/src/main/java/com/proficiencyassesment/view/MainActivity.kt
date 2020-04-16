@@ -1,7 +1,8 @@
-package com.proficiencyassesment
+package com.proficiencyassesment.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.proficiencyassesment.R
 
 class MainActivity : AppCompatActivity() {
 
