@@ -3,16 +3,21 @@ package com.proficiencyassesment.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.proficiencyassesment.R
 import com.proficiencyassesment.databinding.ActivityMainBinding
+import com.proficiencyassesment.utils.NetworkAvailabilityCheck
 import com.proficiencyassesment.viewmodel.MainViewModel
-import com.proficiencyassesment.viewmodelfactoryprovider.ViewModelFactory
+import com.proficiencyassesment.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
+    private lateinit var networkConnectionLiveData: LiveData<Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,5 +25,13 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProviders.of(this@MainActivity, viewModelFactory)
             .get(MainViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        init()
+    }
+
+    private fun init(){
+        networkConnectionLiveData=NetworkAvailabilityCheck(this)
+        recyclerview.layoutManager =LinearLayoutManager(this)
+        recyclerview.setHasFixedSize(true)
     }
 }
