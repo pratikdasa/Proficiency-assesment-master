@@ -48,6 +48,8 @@ dependencies {
     implementation "com.google.android.material:material:$app_material_library"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01"
+    implementation "androidx.cardview:cardview:$app_cardlibrary"
+
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$app_retrofit"

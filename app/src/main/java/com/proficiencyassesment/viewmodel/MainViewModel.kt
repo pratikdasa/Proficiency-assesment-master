@@ -30,6 +30,7 @@ class MainViewModel(private val mainActivity: MainActivity, private val mApiKey:
         //Injecting and getting apiService instance using dagger
         (mainActivity.application as ProficiencyAssesment).getAppComponent()?.inject(this)
     }
+
     //Error state to handle with live data
     val error = MutableLiveData<String>()
 
@@ -44,8 +45,10 @@ class MainViewModel(private val mainActivity: MainActivity, private val mApiKey:
             })
         }
     }
+
+
     fun loadData(mApiKey: String) {
-        GlobalScope.launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main).launch() {
             try {
                 withContext(Dispatchers.IO) {
                     var resultDeferred: Deferred<Response<Facts>> = getDataFromServer(mApiKey)
@@ -53,19 +56,51 @@ class MainViewModel(private val mainActivity: MainActivity, private val mApiKey:
                         var result: Response<Facts> = resultDeferred.await()
                         if (result.isSuccessful) {
                             var response = result.body()
+                            response?.let {
+                                mFactsData.postValue(response)
+                            }
                             Log.e("response", response.toString())
                         } else {
+                            error.postValue(mainActivity.getString(R.string.error))
                             Log.e("error", "Error in response")
 
                         }
                     } catch (ex: Exception) {
-                        ex.printStackTrace()
+                        error.postValue(ex.message)
+                        resultDeferred.getCompletionExceptionOrNull()?.let {
+                            println(resultDeferred.getCompletionExceptionOrNull()!!.message)
+                        }
                     }
+
                 }
-            } catch (e: Throwable) {
+            }catch (e: Exception){
                 e.printStackTrace()
+                error.postValue(e.message)
             }
         }
+
+
+//        GlobalScope.launch(Dispatchers.Main) {
+//            try {
+//                withContext(Dispatchers.IO) {
+//                    var resultDeferred: Deferred<Response<Facts>> = getDataFromServer(mApiKey)
+//                    try {
+//                        var result: Response<Facts> = resultDeferred.await()
+//                        if (result.isSuccessful) {
+//                            var response = result.body()
+//                            Log.e("response", response.toString())
+//                        } else {
+//                            Log.e("error", "Error in response")
+//
+//                        }
+//                    } catch (ex: Exception) {
+//                        ex.printStackTrace()
+//                    }
+//                }
+//            } catch (e: Throwable) {
+//                e.printStackTrace()
+//            }
+//        }
     }
 
     private suspend fun getDataFromServer(mApiKey: String) = withContext(Dispatchers.IO) {
