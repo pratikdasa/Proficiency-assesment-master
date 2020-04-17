@@ -3,6 +3,7 @@ package com.proficiencyassesment.view
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp)
         networkConnectionLiveData = NetworkAvailabilityCheck(this)
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.setHasFixedSize(true)
@@ -76,14 +76,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
     //Code to show error dialog
     private fun showErrorDialog(message: String) {
         PopupUtils.showAlertDialog(this, getString(R.string.app_name), message)
-
     }
 
     //The data will be updated here and recyclerview adapter also will be set from this method.
