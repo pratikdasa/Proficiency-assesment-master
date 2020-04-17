@@ -50,7 +50,7 @@
                         <TextView
                             android:id="@+id/description_text"
                             style="@style/DescriptionTextAppearance"
-                            android:layout_weight="0.75"
+                            android:layout_weight="0.50"
                             android:fontFamily="@font/roboto_thin"
                             android:text='@{dataitem.description!= null ? dataitem.description: ""}' />
 
@@ -58,11 +58,8 @@
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_weight="1.25"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1.50"
                             android:adjustViewBounds="true"
                             android:scaleType="fitXY"
                             android:src='@{dataitem.imageHref!=null ? dataitem.imageHref : ""}'>
