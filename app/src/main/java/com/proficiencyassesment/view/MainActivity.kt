@@ -2,7 +2,8 @@ package com.proficiencyassesment.view
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.View
+import android.os.Handler
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -19,12 +20,15 @@ import com.proficiencyassesment.viewmodel.MainViewModel
 import com.proficiencyassesment.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var networkConnectionLiveData: LiveData<Boolean>
     var recyclerViewAdapter: RecyclerViewAdapter? = null
+    private var doubleBackToExitPressedOnce = false
+    private val mHandler = Handler()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +42,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp)
         networkConnectionLiveData = NetworkAvailabilityCheck(this)
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.setHasFixedSize(true)
 
+        swipe_container.setOnRefreshListener {
+            getDataFromServer()
+            swipe_container.isRefreshing = false
+        }
+        //Observer for live data to update the data if there any change
         mainViewModel.mFactsData.observe(this, Observer<Facts> { Facts -> updateListData(Facts) })
+
         mainViewModel.error.observe(
             this, Observer<String> {
                 showErrorDialog(it)
@@ -50,34 +61,27 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun getDataFromServer() {
+        networkConnectionLiveData.observe(this, Observer<Boolean> {
+            if (it == true) {
+                mainViewModel.loadData(Constants.APIKEY)
+            } else {
+                showErrorDialog(this.getString(R.string.error))
+            }
+
+        })
+
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        updateForOrientation(newConfig.orientation)
     }
 
-    private fun updateForOrientation(orientation: Int) {
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            hideSystemUI()
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            showSystemUI()
-        }
-    }
-
-    private fun showSystemUI() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-    }
-
-    private fun hideSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-    }
-    private fun showErrorDialog(message: String){
+    private fun showErrorDialog(message: String) {
         PopupUtils.showAlertDialog(this, getString(R.string.app_name), message)
 
     }
+
     private fun updateListData(facts: Facts) {
         txtToolbarTitle.text = facts.title
         val data = facts.rows?.filter { it.title != null }?.filter { it.description != null }
@@ -85,4 +89,25 @@ class MainActivity : AppCompatActivity() {
         recyclerViewAdapter = RecyclerViewAdapter(data)
         recyclerview.adapter = recyclerViewAdapter
     }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, getString(R.string.back_press_message), Toast.LENGTH_SHORT).show()
+        mHandler.postDelayed(mRunnable, 2000)
+    }
+
+    private val mRunnable = Runnable { doubleBackToExitPressedOnce = false }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mHandler != null) {
+            mHandler.removeCallbacks(mRunnable)
+        }
+    }
+
 }

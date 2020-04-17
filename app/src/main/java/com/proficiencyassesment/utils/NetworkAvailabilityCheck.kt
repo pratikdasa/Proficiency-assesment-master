@@ -12,6 +12,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 
+//Class to check network availability, if available then webservice call will happen else it will show error that internet is not available. It used Live data to observe the change.
 class NetworkAvailabilityCheck(private val mContext: Context) : LiveData<Boolean>() {
 
     private var connectivityManager: ConnectivityManager =

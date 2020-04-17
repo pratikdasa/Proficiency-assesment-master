@@ -51,7 +51,7 @@
                             android:id="@+id/description_text"
                             style="@style/DescriptionTextAppearance"
                             android:layout_weight="0.75"
-                            android:fontFamily="@font/roboto_thin"
+                            android:fontFamily="@font/lato_regular"
                             android:text='@{dataitem.description!= null ? dataitem.description: ""}' />
 
                         <ImageView
@@ -69,6 +69,21 @@
 
                         </ImageView>
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.85"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chevron_right_black_24dp"></ImageView>
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

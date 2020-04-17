@@ -3,4 +3,5 @@
     <string name="internet_error">Please check your internet connection!</string>
     <string name="error">Something went wrong, please check your internet connection!</string>
     <string name="close">CLOSE</string>
+    <string name="back_press_message">Please click BACK again to exit</string>
 </resources>
