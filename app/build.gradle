@@ -59,10 +59,15 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$app_okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$app_retrofit_interceptor"
 
+    //Dagger
     implementation "com.google.dagger:dagger-android:$app_dagger"
     implementation "com.google.dagger:dagger-android-support:$app_dagger"
     kapt  "com.google.dagger:dagger-android-processor:$app_dagger"
     kapt  "com.google.dagger:dagger-compiler:$app_dagger"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$app_glide"
+    kapt "com.github.bumptech.glide:compiler:$app_glide"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

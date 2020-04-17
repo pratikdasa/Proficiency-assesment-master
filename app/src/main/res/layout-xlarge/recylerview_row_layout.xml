@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="dataitem"
             type="com.proficiencyassesment.model.CountryInformation" />
@@ -58,14 +57,14 @@
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"
                             android:layout_weight="1.25"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
-                            android:scaleType="fitXY"
-                            android:src='@{dataitem.imageHref!=null ? dataitem.imageHref : ""}'>
+                            android:src='@{dataitem.imageHref!=null ? dataitem.imageHref : ""}'
+                            android:scaleType="fitXY">
 
                         </ImageView>
                     </LinearLayout>
