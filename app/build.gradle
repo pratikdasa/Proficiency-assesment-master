@@ -53,7 +53,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01"
     implementation "androidx.cardview:cardview:$app_cardlibrary"
 
-
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$app_retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$app_retrofit"

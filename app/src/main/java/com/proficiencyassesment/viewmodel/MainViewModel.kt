@@ -1,10 +1,7 @@
 package com.proficiencyassesment.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.proficiencyassesment.R
 import com.proficiencyassesment.dependencyinjection.ProficiencyAssesment
 import com.proficiencyassesment.model.Facts
@@ -48,7 +45,8 @@ class MainViewModel(private val mainActivity: MainActivity, private val mApiKey:
 
 
     fun loadData(mApiKey: String) {
-        CoroutineScope(Dispatchers.Main).launch() {
+
+        viewModelScope.launch() {
             try {
                 withContext(Dispatchers.IO) {
                     var resultDeferred: Deferred<Response<Facts>> = getDataFromServer(mApiKey)

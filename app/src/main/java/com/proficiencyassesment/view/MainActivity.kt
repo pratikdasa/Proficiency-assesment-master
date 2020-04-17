@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.setHasFixedSize(true)
 
+        //Swipe-to-refresh code
         swipe_container.setOnRefreshListener {
             getDataFromServer()
             swipe_container.isRefreshing = false
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         //Observer for live data to update the data if there any change
         mainViewModel.mFactsData.observe(this, Observer<Facts> { Facts -> updateListData(Facts) })
 
+        //Observer for error live data to to check if there is any error found
         mainViewModel.error.observe(
             this, Observer<String> {
                 showErrorDialog(it)
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    //Get data from server for swipe to refresh
     private fun getDataFromServer() {
         networkConnectionLiveData.observe(this, Observer<Boolean> {
             if (it == true) {
@@ -77,11 +80,13 @@ class MainActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
     }
 
+    //Code to show error dialog
     private fun showErrorDialog(message: String) {
         PopupUtils.showAlertDialog(this, getString(R.string.app_name), message)
 
     }
 
+    //The data will be updated here and recyclerview adapter also will be set from this method.
     private fun updateListData(facts: Facts) {
         txtToolbarTitle.text = facts.title
         val data = facts.rows?.filter { it.title != null }?.filter { it.description != null }
@@ -90,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.adapter = recyclerViewAdapter
     }
 
+    //Code to press back button 2 times when user wants to leave the app.
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
@@ -105,6 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        //Releasing handler
         if (mHandler != null) {
             mHandler.removeCallbacks(mRunnable)
         }
