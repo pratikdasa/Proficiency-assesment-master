@@ -1,0 +1,45 @@
+# Proficiency Assessment Android App (For practical evaluation)
+
+## Setup
+
+To be able to work on the app the following requirement have to be met:
+
+* Android Studio version 3.6.1
+* Android SDK 29 + Build Tools installed
+* Language used : Kotlin
+
+## Project Structure, Concepts Used
+
+1. To accomplish the given requirement, I selected the MVVM architecture pattern for development purpose.
+2. Data binding is used so I can get rid of findViewById(). And to fulfill the MVVM pattern need to communicate between viewmodel and view.
+3. Binding adapter is also used to show the image in the list with Data Binding pattern using GLIDE image library.
+4. Retrofit networking library is used to achieve client-server communication and fetch data.
+5. Dagger implementation for dependency injection is used in the application for Retrofit classes.
+6. Kotlin couroutines has been used to achieve background performing task to fetch the data using webservice.
+7. Kotlin data classes are used to hold the data.
+8. To support multiple screen layouts, multiple layouts folders added under res folder.
+9. Custom font (lato_bold.ttf, lato.regular.ttf) files has been added in font folder under res.
+10. Recyclerview is used to show the data fetched from the webservice.
+11. Portrait-Landscape orientation support is also given in the app.
+12. Unit tests has been added using Junit Mockito.
+13. few UI test also written using Espresso.
+
+## Explanation
+-> Project is using MVVM architecture which contains Model, Viewmodel, Views. Based on that folder structure is designed.
+-> MainActivity is the screen which is responsible to display the data, so activity_main.xml contains the screen design with the data binding with the viewmodel.
+-> Viewmodel is responsible to call the webservice using couroutines and getting the response in the Viewmodel class.
+-> All the response related variables are Livedata objects, so when the data will be fetched and assign to livedata, it will directly call the
+   Observer in the MainActivity with the updated data and inflate the recyclerview. If error should be there then it will dispaly the particular
+   error in the aleart dialog.
+-> Whole recyclerview adapter is using data binding to fill the data correctly.
+-> Before calling the webservice, Network check must be there so here also NetworkAvailabilityCheck class is there which is also contains LiveData object of Boolean type to return true or false for the network.
+
+## Project Flow
+-> By pressing launcher icon from the device, app will open.
+-> User can see splash screen as a launching screen for 3 seconds.
+-> After 3 seconds Main Activity will open which will call the webservice and fetch the data from it. It will display the name on the toolbar,
+   the data array is setup in recyclerview which contains title, description and image.
+-> If user wants to exit from the app then user needs to press device back button 2 times.
+
+## Testing
+Testing needs active internet connection, and a physical device or emulator.
